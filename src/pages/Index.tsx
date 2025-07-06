@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Code, Award, Briefcase, GraduationCap, User, ChevronDown } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,27 +27,39 @@ const Index = () => {
   const projects = [
     {
       title: "National Institute of Technology Delhi Website",
-      description: "Collaborated with Alok Kumar to develop the official website for NIT Delhi, focusing on creating a user-friendly and responsive platform.",
-      tech: ["HTML", "CSS", "JavaScript"],
-      link: "#"
+      description: "Collaborated with Alok Kumar to develop the official website for NIT Delhi, focusing on creating a user-friendly and responsive platform. Enhanced the institute's online presence and improved access to important information for students, faculty, and visitors through modern web development practices.",
+      detailedDescription: "This comprehensive web development project involved redesigning NIT Delhi's entire digital presence. We implemented responsive design principles, optimized loading speeds, and created an intuitive navigation system that serves thousands of users daily.",
+      tech: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "Web Accessibility"],
+      features: ["Mobile-first design", "SEO optimization", "Fast loading times", "Accessibility compliance"],
+      link: "#",
+      category: "Web Development"
     },
     {
       title: "Khalsa College of Engineering & Technology Website",
-      description: "Developed using HTML, CSS, JavaScript, and WordPress with responsive design and performance optimization.",
-      tech: ["HTML", "CSS", "JavaScript", "WordPress"],
-      link: "#"
+      description: "Developed using HTML, CSS, JavaScript, and WordPress with responsive design and performance optimization. Focused on creating a modern, user-friendly website with customized features based on college requirements.",
+      detailedDescription: "A complete website overhaul for KCET using modern web technologies and WordPress CMS. Implemented custom themes, optimized performance, and integrated various college-specific functionalities for students and faculty.",
+      tech: ["HTML5", "CSS3", "JavaScript", "WordPress", "PHP", "MySQL"],
+      features: ["Custom WordPress themes", "Performance optimization", "Admin dashboard", "Student portal integration"],
+      link: "#",
+      category: "CMS Development"
     },
     {
-      title: "Job Application Template",
-      description: "Well-structured job application template with tailored resume and cover letter guidelines.",
-      tech: ["Documentation", "Templates"],
-      link: "#"
+      title: "Job Application Template System",
+      description: "Well-structured job application template with tailored resume and cover letter guidelines. Includes customization advice and interview preparation tips for various job roles and industries.",
+      detailedDescription: "A comprehensive template system designed to help job seekers create professional applications. Features industry-specific templates, automated formatting, and guided content creation with best practices.",
+      tech: ["Documentation", "Template Design", "Content Strategy", "User Experience"],
+      features: ["Multiple industry templates", "Customization guidelines", "Interview prep", "Skills highlighting"],
+      link: "#",
+      category: "Documentation"
     },
     {
-      title: "GPS-based Toll Systems",
-      description: "Simulates a toll-based system using GPS coordinates with Python libraries for geospatial data handling.",
-      tech: ["Python", "GPS", "Data Visualization"],
-      link: "#"
+      title: "GPS-based Toll Systems Simulation",
+      description: "Simulates a toll-based system using GPS coordinates with Python libraries for geospatial data handling. Vehicles are tracked through road networks with automatic toll deduction in predefined zones.",
+      detailedDescription: "An advanced simulation system that demonstrates real-world toll collection using GPS technology. Implements complex algorithms for route tracking, zone detection, and automated billing with data visualization.",
+      tech: ["Python", "GPS APIs", "Geospatial Libraries", "Data Visualization", "Pandas", "Matplotlib"],
+      features: ["Real-time tracking", "Zone-based billing", "Route optimization", "Visual analytics dashboard"],
+      link: "#",
+      category: "Software Development"
     }
   ];
 
@@ -140,7 +151,6 @@ const Index = () => {
                 <User size={48} className="text-purple-400" />
               </div>
             </div>
-          </div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent animate-fade-in">
             Vidhi Bhawra
@@ -278,27 +288,64 @@ const Index = () => {
           
           <div className="grid md:grid-cols-2 gap-8">
             {projects.map((project, index) => (
-              <Card key={index} className="bg-slate-800/50 border-purple-500/20 backdrop-blur-sm hover:border-purple-500/40 transition-all duration-300 hover:scale-105 group">
+              <Card 
+                key={index} 
+                className="bg-slate-800/50 border-purple-500/20 backdrop-blur-sm transition-all duration-500 hover:border-purple-400/60 hover:shadow-lg hover:shadow-purple-500/20 hover:scale-[1.02] group cursor-pointer"
+              >
                 <CardHeader>
-                  <CardTitle className="text-white group-hover:text-purple-400 transition-colors duration-300">
-                    {project.title}
-                  </CardTitle>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-white group-hover:text-purple-400 transition-colors duration-300">
+                      {project.title}
+                    </CardTitle>
+                    <Badge 
+                      variant="outline" 
+                      className="border-pink-500/30 text-pink-300 group-hover:border-pink-400/60 group-hover:text-pink-200 transition-all duration-300"
+                    >
+                      {project.category}
+                    </Badge>
+                  </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-gray-300 mb-4">{project.description}</p>
+                <CardContent className="space-y-4">
+                  <p className="text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
+                    {project.description}
+                  </p>
+                  
+                  <div className="opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+                    <p className="text-sm text-gray-400 mb-3 leading-relaxed">
+                      {project.detailedDescription}
+                    </p>
+                    
+                    <div className="mb-3">
+                      <h4 className="text-sm font-semibold text-purple-300 mb-2">Key Features:</h4>
+                      <div className="grid grid-cols-2 gap-1">
+                        {project.features.map((feature, featureIndex) => (
+                          <div key={featureIndex} className="text-xs text-gray-400 flex items-center">
+                            <div className="w-1 h-1 bg-purple-400 rounded-full mr-2"></div>
+                            {feature}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tech.map((tech, techIndex) => (
-                      <Badge key={techIndex} variant="outline" className="border-purple-500/30 text-purple-300">
+                      <Badge 
+                        key={techIndex} 
+                        variant="outline" 
+                        className="border-purple-500/30 text-purple-300 group-hover:border-purple-400/60 group-hover:text-purple-200 group-hover:bg-purple-500/10 transition-all duration-300 hover:scale-105"
+                      >
                         {tech}
                       </Badge>
                     ))}
                   </div>
+                  
                   <Button 
                     variant="ghost" 
-                    className="text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 p-0"
+                    className="text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 p-0 group-hover:bg-purple-500/20 transition-all duration-300"
                     onClick={() => window.open(project.link, '_blank')}
                   >
-                    <ExternalLink size={16} className="mr-2" />
+                    <ExternalLink size={16} className="mr-2 group-hover:scale-110 transition-transform duration-300" />
                     View Project
                   </Button>
                 </CardContent>
