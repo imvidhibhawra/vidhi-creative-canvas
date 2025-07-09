@@ -151,6 +151,7 @@ const Index = () => {
                 <User size={48} className="text-purple-400" />
               </div>
             </div>
+          </div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent animate-fade-in">
             Vidhi Bhawra
