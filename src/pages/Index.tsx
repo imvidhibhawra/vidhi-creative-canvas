@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Code, Award, Briefcase, GraduationCap, User, ChevronDown, Camera, Trophy, Users, FileText } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Code, Award, Briefcase, GraduationCap, User, ChevronDown, Camera, Trophy, Users, FileText, Menu, X } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -10,6 +9,7 @@ import { Progress } from '@/components/ui/progress';
 const Index = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -177,6 +177,7 @@ const Index = () => {
       onClick={() => {
         document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
         setActiveSection(sectionId);
+        setIsMobileMenuOpen(false);
       }}
       className="transition-all duration-300 hover:text-purple-600"
     >
@@ -208,14 +209,14 @@ const Index = () => {
   );
 
   const SkillBar = ({ skill }: { skill: { name: string; level: number; color: string } }) => (
-    <div className="bg-slate-800/70 rounded-xl p-4 border border-slate-700/50 hover:border-purple-500/30 transition-all duration-300">
+    <div className="bg-slate-800/70 rounded-xl p-4 border border-slate-700/50 hover:border-purple-500/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/10 group">
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-white font-medium">{skill.name}</h3>
-        <span className="text-purple-400 font-semibold">{skill.level}%</span>
+        <h3 className="text-white font-medium group-hover:text-purple-300 transition-colors duration-300">{skill.name}</h3>
+        <span className="text-purple-400 font-semibold group-hover:text-purple-300 transition-colors duration-300">{skill.level}%</span>
       </div>
       <div className="w-full bg-slate-700/50 rounded-full h-3 overflow-hidden">
         <div 
-          className={`h-full bg-gradient-to-r ${skill.color} transition-all duration-1000 ease-out rounded-full`}
+          className={`h-full bg-gradient-to-r ${skill.color} transition-all duration-1000 ease-out rounded-full group-hover:shadow-lg`}
           style={{ width: `${skill.level}%` }}
         />
       </div>
@@ -238,12 +239,14 @@ const Index = () => {
 
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-lg border-b border-purple-500/20">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <div className="text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               Vidhi Bhawra
             </div>
-            <div className="hidden md:flex space-x-8">
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex space-x-6 lg:space-x-8">
               <ScrollToSection sectionId="hero">Home</ScrollToSection>
               <ScrollToSection sectionId="about">About</ScrollToSection>
               <ScrollToSection sectionId="experience">Experience</ScrollToSection>
@@ -252,34 +255,61 @@ const Index = () => {
               <ScrollToSection sectionId="skills">Skills</ScrollToSection>
               <ScrollToSection sectionId="contact">Contact</ScrollToSection>
             </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2 text-purple-400 hover:text-purple-300 transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
+
+          {/* Mobile Navigation */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 border-t border-purple-500/20 pt-4">
+              <div className="flex flex-col space-y-3">
+                <ScrollToSection sectionId="hero">Home</ScrollToSection>
+                <ScrollToSection sectionId="about">About</ScrollToSection>
+                <ScrollToSection sectionId="experience">Experience</ScrollToSection>
+                <ScrollToSection sectionId="projects">Projects</ScrollToSection>
+                <ScrollToSection sectionId="showcase">Project Showcase</ScrollToSection>
+                <ScrollToSection sectionId="skills">Skills</ScrollToSection>
+                <ScrollToSection sectionId="contact">Contact</ScrollToSection>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="relative z-10 min-h-screen flex items-center justify-center px-6">
-        <div className="text-center max-w-4xl mx-auto">
+      <section id="hero" className="relative z-10 min-h-screen flex items-center justify-center px-4 md:px-6">
+        <div className="text-center max-w-6xl mx-auto">
           <div className="mb-8">
-            <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 p-1">
-              <div className="w-full h-full rounded-full bg-slate-900 flex items-center justify-center">
-                <User size={48} className="text-purple-400" />
+            <div className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 p-1 hover:scale-105 transition-transform duration-300">
+              <div className="w-full h-full rounded-full overflow-hidden">
+                <img 
+                  src="/lovable-uploads/1fe00cce-3a07-4467-b744-6329b6ccc588.png" 
+                  alt="Vidhi Bhawra" 
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent animate-fade-in">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent animate-fade-in">
             Vidhi Bhawra
           </h1>
           
-          <p className="text-xl md:text-2xl text-gray-300 mb-4 animate-fade-in">
+          <p className="text-lg md:text-xl lg:text-2xl text-gray-300 mb-4 animate-fade-in">
             Full Stack Developer & AI Enthusiast
           </p>
           
-          <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto animate-fade-in">
+          <p className="text-base md:text-lg text-gray-400 mb-8 max-w-2xl mx-auto animate-fade-in px-4">
             BTech CSE student with minor in AI from IIT Ropar, passionate about creating innovative web solutions and automation technologies.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8 px-4">
             <Button 
               variant="outline" 
               className="border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white transition-all duration-300 hover:scale-105"
@@ -317,13 +347,13 @@ const Index = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="relative z-10 py-20 px-6">
+      <section id="about" className="relative z-10 py-16 md:py-20 px-4 md:px-6">
         <div className="container mx-auto max-w-4xl">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             About Me
           </h2>
           
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             <Card className="bg-slate-800/50 border-purple-500/20 backdrop-blur-sm hover:border-purple-500/40 transition-all duration-300 hover:scale-105">
               <CardHeader>
                 <CardTitle className="flex items-center text-purple-400">
@@ -334,15 +364,15 @@ const Index = () => {
               <CardContent className="space-y-4">
                 <div>
                   <h3 className="font-semibold text-white">Indian Institute of Technology Ropar</h3>
-                  <p className="text-gray-400">Minor in AI BTech | Jan 2025 - Present</p>
+                  <p className="text-gray-400 text-sm">Minor in AI BTech | Jan 2025 - Present</p>
                 </div>
                 <div>
                   <h3 className="font-semibold text-white">Khalsa College of Engg. and Technology</h3>
-                  <p className="text-gray-400">CSE BTech | Aug 2022 - Present</p>
+                  <p className="text-gray-400 text-sm">CSE BTech | Aug 2022 - Present</p>
                 </div>
                 <div>
                   <h3 className="font-semibold text-white">Des Raj Heritage Public School</h3>
-                  <p className="text-gray-400">Intermediate | June 2019 - June 2021</p>
+                  <p className="text-gray-400 text-sm">Intermediate | June 2019 - June 2021</p>
                 </div>
               </CardContent>
             </Card>
@@ -367,26 +397,26 @@ const Index = () => {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="relative z-10 py-20 px-6 bg-slate-900/30">
+      <section id="experience" className="relative z-10 py-16 md:py-20 px-4 md:px-6 bg-slate-900/30">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Experience
           </h2>
           
-          <div className="space-y-8">
+          <div className="space-y-6 md:space-y-8">
             {experience.map((exp, index) => (
               <Card key={index} className="bg-slate-800/50 border-purple-500/20 backdrop-blur-sm hover:border-purple-500/40 transition-all duration-300 hover:scale-102">
-                <CardContent className="p-6">
+                <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-1">{exp.role}</h3>
+                      <h3 className="text-lg md:text-xl font-bold text-white mb-1">{exp.role}</h3>
                       <p className="text-purple-400 font-semibold">{exp.company}</p>
                     </div>
-                    <Badge variant="secondary" className="bg-purple-500/20 text-purple-300 w-fit">
+                    <Badge variant="secondary" className="bg-purple-500/20 text-purple-300 w-fit mt-2 md:mt-0">
                       {exp.period}
                     </Badge>
                   </div>
-                  <p className="text-gray-300">{exp.description}</p>
+                  <p className="text-gray-300 text-sm md:text-base">{exp.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -395,13 +425,13 @@ const Index = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="relative z-10 py-20 px-6">
+      <section id="projects" className="relative z-10 py-16 md:py-20 px-4 md:px-6">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Projects
           </h2>
           
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             {projects.map((project, index) => (
               <Card 
                 key={index} 
@@ -409,19 +439,19 @@ const Index = () => {
               >
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-white group-hover:text-purple-400 transition-colors duration-300">
+                    <CardTitle className="text-white group-hover:text-purple-400 transition-colors duration-300 text-base md:text-lg">
                       {project.title}
                     </CardTitle>
                     <Badge 
                       variant="outline" 
-                      className="border-pink-500/30 text-pink-300 group-hover:border-pink-400/60 group-hover:text-pink-200 transition-all duration-300"
+                      className="border-pink-500/30 text-pink-300 group-hover:border-pink-400/60 group-hover:text-pink-200 transition-all duration-300 text-xs"
                     >
                       {project.category}
                     </Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
+                  <p className="text-gray-300 group-hover:text-gray-200 transition-colors duration-300 text-sm md:text-base">
                     {project.description}
                   </p>
                   
@@ -432,7 +462,7 @@ const Index = () => {
                     
                     <div className="mb-3">
                       <h4 className="text-sm font-semibold text-purple-300 mb-2">Key Features:</h4>
-                      <div className="grid grid-cols-2 gap-1">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
                         {project.features.map((feature, featureIndex) => (
                           <div key={featureIndex} className="text-xs text-gray-400 flex items-center">
                             <div className="w-1 h-1 bg-purple-400 rounded-full mr-2"></div>
@@ -448,7 +478,7 @@ const Index = () => {
                       <Badge 
                         key={techIndex} 
                         variant="outline" 
-                        className="border-purple-500/30 text-purple-300 group-hover:border-purple-400/60 group-hover:text-purple-200 group-hover:bg-purple-500/10 transition-all duration-300 hover:scale-105"
+                        className="border-purple-500/30 text-purple-300 group-hover:border-purple-400/60 group-hover:text-purple-200 group-hover:bg-purple-500/10 transition-all duration-300 hover:scale-105 text-xs"
                       >
                         {tech}
                       </Badge>
@@ -471,38 +501,38 @@ const Index = () => {
       </section>
 
       {/* Project Showcase Section */}
-      <section id="showcase" className="relative z-10 py-20 px-6 bg-slate-900/30">
+      <section id="showcase" className="relative z-10 py-16 md:py-20 px-4 md:px-6 bg-slate-900/30">
         <div className="container mx-auto max-w-7xl">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Project Showcase
           </h2>
           
           <Tabs defaultValue="certificates" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-8 bg-slate-800/50 border border-purple-500/20">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 mb-8 bg-slate-800/50 border border-purple-500/20">
               <TabsTrigger 
                 value="certificates" 
-                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2"
+                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2 text-xs md:text-sm"
               >
                 <FileText size={16} />
                 <span className="hidden sm:inline">Certificates</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="projects" 
-                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2"
+                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2 text-xs md:text-sm"
               >
                 <Code size={16} />
                 <span className="hidden sm:inline">Projects</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="achievements" 
-                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2"
+                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2 text-xs md:text-sm"
               >
                 <Trophy size={16} />
                 <span className="hidden sm:inline">Achievements</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="community" 
-                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2"
+                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2 text-xs md:text-sm"
               >
                 <Users size={16} />
                 <span className="hidden sm:inline">Community</span>
@@ -510,7 +540,7 @@ const Index = () => {
             </TabsList>
 
             <TabsContent value="certificates" className="space-y-6">
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                 {galleryData.certificates.map((item) => (
                   <GalleryCard key={item.id} item={item} icon={FileText} />
                 ))}
@@ -518,7 +548,7 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="projects" className="space-y-6">
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                 {galleryData.projects.map((item) => (
                   <GalleryCard key={item.id} item={item} icon={Code} />
                 ))}
@@ -526,7 +556,7 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="achievements" className="space-y-6">
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                 {galleryData.achievements.map((item) => (
                   <GalleryCard key={item.id} item={item} icon={Trophy} />
                 ))}
@@ -534,7 +564,7 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="community" className="space-y-6">
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                 {galleryData.community.map((item) => (
                   <GalleryCard key={item.id} item={item} icon={Users} />
                 ))}
@@ -545,19 +575,19 @@ const Index = () => {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="relative z-10 py-20 px-6">
+      <section id="skills" className="relative z-10 py-16 md:py-20 px-4 md:px-6">
         <div className="container mx-auto max-w-7xl">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Skills & Expertise
           </h2>
           
           <Tabs defaultValue="Programming" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-8 bg-slate-800/50 border border-purple-500/20">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 mb-8 bg-slate-800/50 border border-purple-500/20 overflow-x-auto">
               {Object.keys(skillCategories).map((category) => (
                 <TabsTrigger 
                   key={category}
                   value={category} 
-                  className="data-[state=active]:bg-purple-500/30 data-[state=active]:text-purple-200 text-xs md:text-sm px-2 py-2"
+                  className="data-[state=active]:bg-purple-500/30 data-[state=active]:text-purple-200 text-xs md:text-sm px-2 py-2 whitespace-nowrap"
                 >
                   {category}
                 </TabsTrigger>
@@ -576,16 +606,16 @@ const Index = () => {
           </Tabs>
 
           <div className="mt-16">
-            <h3 className="text-2xl font-bold text-white mb-8 text-center">Certifications</h3>
+            <h3 className="text-xl md:text-2xl font-bold text-white mb-8 text-center">Certifications</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {certifications.map((cert, index) => (
                 <div 
                   key={index} 
-                  className="bg-slate-800/50 p-4 rounded-lg border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:scale-102 group"
+                  className="bg-slate-800/50 p-4 rounded-lg border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:scale-102 group hover:shadow-lg hover:shadow-purple-500/10"
                 >
                   <div className="flex items-center">
-                    <Award className="w-5 h-5 text-purple-400 mr-3 group-hover:text-purple-300 transition-colors" />
-                    <p className="text-gray-300 group-hover:text-white transition-colors">{cert}</p>
+                    <Award className="w-5 h-5 text-purple-400 mr-3 group-hover:text-purple-300 transition-colors group-hover:scale-110" />
+                    <p className="text-gray-300 group-hover:text-white transition-colors text-sm md:text-base">{cert}</p>
                   </div>
                 </div>
               ))}
@@ -595,40 +625,40 @@ const Index = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="relative z-10 py-20 px-6">
+      <section id="contact" className="relative z-10 py-16 md:py-20 px-4 md:px-6">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl font-bold mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Let's Connect
           </h2>
           
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12">
             <Card className="bg-slate-800/50 border-purple-500/20 backdrop-blur-sm hover:border-purple-500/40 transition-all duration-300 hover:scale-105">
-              <CardContent className="p-6 text-center">
-                <Mail className="w-8 h-8 mx-auto mb-4 text-purple-400" />
-                <h3 className="text-lg font-semibold text-white mb-2">Email</h3>
-                <p className="text-gray-300">vidhiv671@gmail.com</p>
+              <CardContent className="p-4 md:p-6 text-center">
+                <Mail className="w-6 md:w-8 h-6 md:h-8 mx-auto mb-4 text-purple-400" />
+                <h3 className="text-base md:text-lg font-semibold text-white mb-2">Email</h3>
+                <p className="text-gray-300 text-sm md:text-base break-all">vidhiv671@gmail.com</p>
               </CardContent>
             </Card>
 
             <Card className="bg-slate-800/50 border-purple-500/20 backdrop-blur-sm hover:border-purple-500/40 transition-all duration-300 hover:scale-105">
-              <CardContent className="p-6 text-center">
-                <Phone className="w-8 h-8 mx-auto mb-4 text-pink-400" />
-                <h3 className="text-lg font-semibold text-white mb-2">Phone</h3>
-                <p className="text-gray-300">+91 79866 60521</p>
+              <CardContent className="p-4 md:p-6 text-center">
+                <Phone className="w-6 md:w-8 h-6 md:h-8 mx-auto mb-4 text-pink-400" />
+                <h3 className="text-base md:text-lg font-semibold text-white mb-2">Phone</h3>
+                <p className="text-gray-300 text-sm md:text-base">+91 79866 60521</p>
               </CardContent>
             </Card>
 
             <Card className="bg-slate-800/50 border-purple-500/20 backdrop-blur-sm hover:border-purple-500/40 transition-all duration-300 hover:scale-105">
-              <CardContent className="p-6 text-center">
-                <MapPin className="w-8 h-8 mx-auto mb-4 text-blue-400" />
-                <h3 className="text-lg font-semibold text-white mb-2">Location</h3>
-                <p className="text-gray-300">Batala, Punjab</p>
+              <CardContent className="p-4 md:p-6 text-center">
+                <MapPin className="w-6 md:w-8 h-6 md:h-8 mx-auto mb-4 text-blue-400" />
+                <h3 className="text-base md:text-lg font-semibold text-white mb-2">Location</h3>
+                <p className="text-gray-300 text-sm md:text-base">Batala, Punjab</p>
               </CardContent>
             </Card>
           </div>
 
-          <div className="text-center">
-            <p className="text-xl text-gray-300 mb-8">Ready to collaborate on your next project?</p>
+          <div className="text-center px-4">
+            <p className="text-lg md:text-xl text-gray-300 mb-8">Ready to collaborate on your next project?</p>
             <Button 
               size="lg"
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-300 hover:scale-105"
@@ -642,9 +672,9 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 py-8 px-6 bg-slate-900/50 border-t border-purple-500/20">
+      <footer className="relative z-10 py-6 md:py-8 px-4 md:px-6 bg-slate-900/50 border-t border-purple-500/20">
         <div className="container mx-auto text-center">
-          <p className="text-gray-400">© 2024 Vidhi Bhawra. Crafted with passion and innovation.</p>
+          <p className="text-gray-400 text-sm md:text-base">© 2024 Vidhi Bhawra. Crafted with passion and innovation.</p>
         </div>
       </footer>
     </div>
