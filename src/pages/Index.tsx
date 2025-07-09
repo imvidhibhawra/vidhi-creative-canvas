@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Code, Award, Briefcase, GraduationCap, User, ChevronDown } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Code, Award, Briefcase, GraduationCap, User, ChevronDown, Camera, Trophy, Users, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('hero');
@@ -97,6 +99,34 @@ const Index = () => {
     "R Programming - Udemy"
   ];
 
+  // Gallery data for Project Showcase
+  const galleryData = {
+    certificates: [
+      { id: 1, title: "C Programming Certificate", image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop", category: "Programming" },
+      { id: 2, title: "JavaScript Certification", image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop", category: "Web Development" },
+      { id: 3, title: "AWS Cloud Practitioner", image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop", category: "Cloud Computing" },
+      { id: 4, title: "UiPath Automation", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop", category: "RPA" },
+    ],
+    projects: [
+      { id: 1, title: "NIT Delhi Website", image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop", category: "Web Development" },
+      { id: 2, title: "KCET Website", image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop", category: "WordPress" },
+      { id: 3, title: "GPS Toll System", image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=300&fit=crop", category: "Python" },
+      { id: 4, title: "Job Application Template", image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop", category: "Documentation" },
+    ],
+    achievements: [
+      { id: 1, title: "Tech Urja 2k24 Organizer", image: "https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=400&h=300&fit=crop", category: "Event Management" },
+      { id: 2, title: "8.78+ CGPA Recognition", image: "https://images.unsplash.com/photo-1487887235947-a955ef187fcc?w=400&h=300&fit=crop", category: "Academic" },
+      { id: 3, title: "Git & GitHub Session", image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?w=400&h=300&fit=crop", category: "Teaching" },
+      { id: 4, title: "DSA Learning Session", image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400&h=300&fit=crop", category: "Mentoring" },
+    ],
+    community: [
+      { id: 1, title: "UiPath Community", image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&h=300&fit=crop", category: "RPA Community" },
+      { id: 2, title: "Campus Ambassador", image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&h=300&fit=crop", category: "Leadership" },
+      { id: 3, title: "Tech Events", image: "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=300&fit=crop", category: "Organizing" },
+      { id: 4, title: "Student Developer", image: "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?w=400&h=300&fit=crop", category: "Development" },
+    ]
+  };
+
   const ScrollToSection = ({ sectionId, children }: { sectionId: string; children: React.ReactNode }) => (
     <button
       onClick={() => {
@@ -107,6 +137,29 @@ const Index = () => {
     >
       {children}
     </button>
+  );
+
+  const GalleryCard = ({ item, icon: Icon }: { item: any; icon: any }) => (
+    <div className="group relative overflow-hidden rounded-xl bg-slate-800/50 border border-purple-500/20 hover:border-purple-400/60 transition-all duration-500 hover:scale-[1.02] cursor-pointer">
+      <div className="aspect-square overflow-hidden">
+        <img 
+          src={item.image} 
+          alt={item.title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <div className="absolute bottom-0 left-0 right-0 p-4">
+          <div className="flex items-center mb-2">
+            <Icon size={16} className="text-purple-400 mr-2" />
+            <Badge variant="outline" className="border-purple-500/30 text-purple-300 text-xs">
+              {item.category}
+            </Badge>
+          </div>
+          <h3 className="text-white font-semibold text-sm leading-tight">{item.title}</h3>
+        </div>
+      </div>
+    </div>
   );
 
   return (
@@ -135,6 +188,7 @@ const Index = () => {
               <ScrollToSection sectionId="about">About</ScrollToSection>
               <ScrollToSection sectionId="experience">Experience</ScrollToSection>
               <ScrollToSection sectionId="projects">Projects</ScrollToSection>
+              <ScrollToSection sectionId="showcase">Project Showcase</ScrollToSection>
               <ScrollToSection sectionId="skills">Skills</ScrollToSection>
               <ScrollToSection sectionId="contact">Contact</ScrollToSection>
             </div>
@@ -356,8 +410,82 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Project Showcase Section */}
+      <section id="showcase" className="relative z-10 py-20 px-6 bg-slate-900/30">
+        <div className="container mx-auto max-w-7xl">
+          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Project Showcase
+          </h2>
+          
+          <Tabs defaultValue="certificates" className="w-full">
+            <TabsList className="grid w-full grid-cols-4 mb-8 bg-slate-800/50 border border-purple-500/20">
+              <TabsTrigger 
+                value="certificates" 
+                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2"
+              >
+                <FileText size={16} />
+                <span className="hidden sm:inline">Certificates</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="projects" 
+                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2"
+              >
+                <Code size={16} />
+                <span className="hidden sm:inline">Projects</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="achievements" 
+                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2"
+              >
+                <Trophy size={16} />
+                <span className="hidden sm:inline">Achievements</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="community" 
+                className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 flex items-center gap-2"
+              >
+                <Users size={16} />
+                <span className="hidden sm:inline">Community</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="certificates" className="space-y-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {galleryData.certificates.map((item) => (
+                  <GalleryCard key={item.id} item={item} icon={FileText} />
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="projects" className="space-y-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {galleryData.projects.map((item) => (
+                  <GalleryCard key={item.id} item={item} icon={Code} />
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="achievements" className="space-y-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {galleryData.achievements.map((item) => (
+                  <GalleryCard key={item.id} item={item} icon={Trophy} />
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="community" className="space-y-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {galleryData.community.map((item) => (
+                  <GalleryCard key={item.id} item={item} icon={Users} />
+                ))}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </section>
+
       {/* Skills Section */}
-      <section id="skills" className="relative z-10 py-20 px-6 bg-slate-900/30">
+      <section id="skills" className="relative z-10 py-20 px-6">
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Skills & Certifications
